@@ -1,0 +1,15 @@
+<Project>
+  <!-- See https://aka.ms/dotnet/msbuild/customize for more details on customizing your build -->
+  <PropertyGroup>
+    <Description>PracticeBuddy</Description>
+    <TargetFramework>latest</TargetFramework>
+    <LangVersion>12</LangVersion>
+    <RootNamespace>jplebre.PracticeBuddy</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <VersionPrefix>0.0.0</VersionPrefix>
+    <PreReleaseVersionLabel>alpha1</PreReleaseVersionLabel>
+    <AutoGenerateAssemblyVersion>false</AutoGenerateAssemblyVersion>
+  </PropertyGroup>
+</Project>

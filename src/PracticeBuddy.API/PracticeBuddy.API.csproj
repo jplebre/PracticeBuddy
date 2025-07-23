@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <ContainerRepository>practicebuddy-api-image</ContainerRepository>
+    <UserSecretsId>f50d5408-d556-4b60-8870-5022783e2c4a</UserSecretsId>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- <NoWarn>$(NoWarn);1591</NoWarn> -->
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <OpenApiGenerateDocuments>true</OpenApiGenerateDocuments>
+    <OpenApiDocumentsDirectory>../../docs/OpenApi</OpenApiDocumentsDirectory>
+    <OpenApiGenerateDocumentsOptions>--file-name PracticeBuddyAPI-OpenApi</OpenApiGenerateDocumentsOptions>
+  </PropertyGroup>
+
+  <ItemGroup>
+      <PackageReference Include="AspNetCore.HealthChecks.MySql" />
+      <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+      <PackageReference Include="Microsoft.Extensions.ApiDescription.Server">
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        <PrivateAssets>all</PrivateAssets>
+      </PackageReference>
+      <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" />
+      <PackageReference Include="MySqlConnector" />
+      <PackageReference Include="MySqlConnector.DependencyInjection" />
+      <PackageReference Include="Swashbuckle.AspNetCore" />
+      <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="../../tests/PracticeBuddy.API.IntegrationTests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PracticeBuddy.Core\PracticeBuddy.Core.csproj" />
+  </ItemGroup>
+</Project>

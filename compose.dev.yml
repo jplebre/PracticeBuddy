@@ -1,0 +1,50 @@
+# name: PracticeBuddy
+
+services:
+  practicebuddy-api:
+    build:
+      context: .
+      dockerfile: src/PracticeBuddy.API/Dockerfile
+      target: development                                                                                           # for local dev only
+      # target: final                                                                                               # Use this for integration tests in GHA/Prod
+    ports:
+      - 5068:8080
+    environment: 
+      - ASPNETCORE_ENVIRONMENT=Development                                                                                           # for local dev only
+      - PracticeBuddyApi_MySql_ConnectionString="Server=practicebuddy-db;Database=practicebuddy-db;Uid=practicebuddy-api;Pwd=Password123;"      # for local dev only
+    depends_on:
+      practicebuddy-db:
+        condition: service_healthy
+    volumes:
+      - ~/.microsoft/usersecrets/:/root/.microsoft/usersecrets/:ro
+    develop:
+      watch:
+        - action: rebuild
+          path: .
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5068/healthz/ready"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  practicebuddy-db:
+    image: mysql:latest
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: Password123
+      MYSQL_DATABASE: practicebuddy-db
+      MYSQL_USER: practicebuddy-api
+      MYSQL_PASSWORD: Password123
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:

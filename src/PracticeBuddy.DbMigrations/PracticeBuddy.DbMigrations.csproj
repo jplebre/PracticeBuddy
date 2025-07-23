@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UserSecretsId>86376f73-061b-4abf-b4c7-4368e5eefe2d</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentMigrator" />
+    <PackageReference Include="FluentMigrator.Runner" />
+    <PackageReference Include="FluentMigrator.Runner.MySql" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+    <PackageReference Include="MySqlConnector" />
+    <PackageReference Include="MySqlConnector.DependencyInjection" />
+  </ItemGroup>
+
+  <!-- <Target Name="DockerBuild" Inputs="@(Compile);@(None);@(EmbeddedFiles)" Outputs="$(IntermediateOutputPath)DockerBuildCompleted.txt" AfterTargets="PostBuildEvent">
+    <Exec Command="docker build $(OutDir) -t practicebuddy-db"/>
+    <Touch Files="$(IntermediateOutputPath)DockerBuildCompleted.txt" AlwaysCreate="true"/>
+  </Target>
+  <Target Name="RemoveDockerBuildArtifacs" AfterTargets="Clean">
+    <Delete Files="$(IntermediateOutputPath)DockerBuildCompleted.txt"/>
+  </Target> -->
+
+</Project>
