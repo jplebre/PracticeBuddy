@@ -1,6 +1,4 @@
-using PracticeBuddy.Core.Constants;
-
-namespace PracticeBuddy.Core.Models;
+namespace PracticeBuddy.Core.Constants;
 
 public class Key
 {

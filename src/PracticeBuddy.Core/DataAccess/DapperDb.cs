@@ -29,6 +29,18 @@ public class DapperDb : IDapperDb
         }
     }
 
+    public async Task<T> QuerySingleAsync<T>(string sql, dynamic parameters)
+    {
+        try
+        {
+            return await _connection.QuerySingleAsync<T>(sql, parameters as object);
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+
     public async Task<IEnumerable<T>> QueryAsync<T>(string sql)
     {
         try
@@ -45,7 +57,31 @@ public class DapperDb : IDapperDb
     {
         try
         {
-            return _connection.Query<T>(sql, parameters as object);
+            return await _connection.QueryAsync<T>(sql, parameters as object);
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+
+    public async Task<int> ExecuteAsync(string sql)
+    {
+        try
+        {
+            return await _connection.ExecuteAsync(sql);
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+
+    public async Task<int> ExecuteAsync(string sql, dynamic parameters)
+    {
+        try
+        {
+            return await _connection.ExecuteAsync(sql, parameters as object);
         }
         catch (Exception)
         {

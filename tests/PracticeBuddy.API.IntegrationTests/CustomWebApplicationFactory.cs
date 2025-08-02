@@ -17,10 +17,10 @@ public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProg
     {
         builder.ConfigureServices(services =>
         {
-            services.Remove(services.SingleOrDefault(service => typeof(DbConnection) == service.ServiceType));
-            services.Remove(services.SingleOrDefault(service => typeof(DbDataSource) == service.ServiceType));
-            services.Remove(services.SingleOrDefault(service => typeof(MySqlDataSource) == service.ServiceType));
-            services.Remove(services.SingleOrDefault(service => typeof(MySqlConnection) == service.ServiceType));
+            services.Remove(services.SingleOrDefault(service => typeof(DbConnection) == service.ServiceType)!);
+            services.Remove(services.SingleOrDefault(service => typeof(DbDataSource) == service.ServiceType)!);
+            services.Remove(services.SingleOrDefault(service => typeof(MySqlDataSource) == service.ServiceType)!);
+            services.Remove(services.SingleOrDefault(service => typeof(MySqlConnection) == service.ServiceType)!);
             services.AddMySqlDataSource(_connectionString);
         });
         builder.UseEnvironment("Development");

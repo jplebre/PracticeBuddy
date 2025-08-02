@@ -1,10 +1,10 @@
 using PracticeBuddy.Core.Constants;
 
-namespace PracticeBuddy.Core.Models;
+namespace PracticeBuddy.Core.DataModels;
 
 public class Practice
 {
-    public Guid Id { get; set; }
+    public int Id { get; set; }
     public int ComfortableBPM { get; set; }
     public int MaxBPMAttempted { get; set; }
     public SatisfactionLevel SatisfactionLevel { get; set; }

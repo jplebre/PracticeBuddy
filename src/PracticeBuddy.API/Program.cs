@@ -2,6 +2,7 @@ using MySqlConnector;
 using PracticeBuddy.API.Infrastructure.Extensions;
 using PracticeBuddy.API.Infrastructure.Options;
 using PracticeBuddy.Core.DataAccess;
+using PracticeBuddy.Core.DataAccess.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddEnvironmentVariables();
@@ -14,6 +15,10 @@ builder.Services
     .Configure<PracticeBuddyApiOptions>(o => builder.Configuration.GetSection("PracticeBuddyApi").Bind(o))
     .AddScoped<IDapperDb, DapperDb>()
     .AddMySqlDataSource(builder.Configuration.GetSection("PracticeBuddyApi:MySql").Get<MySqlOptions>()!.ConnectionString);
+
+builder.Services.AddScoped<IRoutineRepository, RoutineRepository>();
+
+builder.Services.AddTransient<IDateTimeProvider, dateTimeProvider>();
 
 builder.Services.AddControllers();
 builder.Services.ConfigureCache();

@@ -9,6 +9,8 @@
   <ItemGroup>
     <PackageReference Include="coverlet.collector" />
     <PackageReference Include="FakeItEasy" />
+    <PackageReference Include="FluentMigrator.Runner.Core" />
+    <PackageReference Include="FluentMigrator.Runner.MySql" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
     <PackageReference Include="Microsoft.Data.Sqlite" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
@@ -23,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\PracticeBuddy.API\PracticeBuddy.API.csproj" />
+    <ProjectReference Include="..\..\src\PracticeBuddy.DbMigrations\PracticeBuddy.DbMigrations.csproj" />
   </ItemGroup>
 
 </Project>

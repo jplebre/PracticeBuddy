@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using PracticeBuddy.Core.Models;
+using PracticeBuddy.Core.DataModels;
 
 namespace PracticeBuddy.API.Controllers;
 

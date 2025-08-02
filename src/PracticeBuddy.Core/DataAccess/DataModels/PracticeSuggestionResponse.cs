@@ -1,4 +1,4 @@
-namespace PracticeBuddy.Core.Models;
+namespace PracticeBuddy.Core.DataModels;
 
 public class PracticeSuggestionResponse
 {

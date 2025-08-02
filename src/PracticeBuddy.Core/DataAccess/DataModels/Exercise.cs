@@ -1,6 +1,6 @@
 using PracticeBuddy.Core.Constants;
 
-namespace PracticeBuddy.Core.Models;
+namespace PracticeBuddy.Core.DataModels;
 
 public class Exercise
 {

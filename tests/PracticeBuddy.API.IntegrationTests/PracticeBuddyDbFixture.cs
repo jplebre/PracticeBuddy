@@ -1,3 +1,5 @@
+using FluentMigrator.Runner;
+using PracticeBuddy.DbMigrations.Migrations;
 using Testcontainers.MySql;
 
 namespace PracticeBuddy.API.IntegrationTests;
@@ -5,6 +7,7 @@ namespace PracticeBuddy.API.IntegrationTests;
 public class PracticeBuddyDbFixture : IAsyncLifetime
 {
     public MySqlContainer Container { get; internal set; }
+    private string _connectionString => Container.GetConnectionString();
 
     public PracticeBuddyDbFixture()
     {
@@ -16,7 +19,8 @@ public class PracticeBuddyDbFixture : IAsyncLifetime
     public async Task InitializeAsync()
     {
         await Container.StartAsync();
-        // MigrateDatabase();
+        MigrateDatabase();
+        // SeedDatabase();
     }
 
     public async Task DisposeAsync()
@@ -25,16 +29,22 @@ public class PracticeBuddyDbFixture : IAsyncLifetime
         await Container.DisposeAsync();
     }
 
-    // private void MigrateDatabase()
-    // {
-    //     var serviceProvider = new ServiceCollection()
-    //         .AddFluentMigratorCore()
-    //         .ConfigureRunner(rb => rb
-    //             .AddSqlServer()
-    //             .WithGlobalConnectionString(ConnectionString)
-    //             .ScanIn(typeof(AddBookTable).Assembly).For.Migrations())
-    //         .BuildServiceProvider();
-    //     var runner = serviceProvider.GetRequiredService<IMigrationRunner>();
-    //     runner.MigrateUp();
-    // }
+    private void MigrateDatabase()
+    {
+        var serviceProvider = new ServiceCollection()
+            .AddFluentMigratorCore()
+            .ConfigureRunner(rb => rb
+                .AddMySql8()
+                .WithGlobalConnectionString(_connectionString)
+                .ScanIn(typeof(MigrationTest).Assembly).For.All())
+            .AddLogging(lb => lb.AddFluentMigratorConsole())
+            .BuildServiceProvider(false);
+        var runner = serviceProvider.GetRequiredService<IMigrationRunner>();
+        runner.MigrateUp();
+    }
+
+    private void SeedDatabase()
+    {
+        throw new NotImplementedException();
+    }
 }
