@@ -31,7 +31,9 @@ public class CreateTables : AutoReversingMigration
             .WithColumn("id").AsInt32().NotNullable().PrimaryKey().Identity()
             .WithColumn("name").AsString().NotNullable()
             .WithColumn("goal_bpm").AsInt32().NotNullable()
-            .WithColumn("user_id").AsInt32().NotNullable()
+            .WithColumn("user_id").AsInt32().NotNullable() // FK
+            // .WithColumn("enabled_keys").AsCustom("JSON").NotNullable()
+            // .WithColumn("enabled_modifiers").AsCustom("JSON").NotNullable()
             .WithColumn("practice_count").AsInt32().NotNullable()
             .WithColumn("last_practiced_at").AsDateTime().Nullable()
             .WithColumn("created_at").AsDateTime().Nullable()
@@ -41,6 +43,7 @@ public class CreateTables : AutoReversingMigration
         Create.Table("exercise_instance").InSchema("exerc")
             .WithColumn("id").AsInt32().NotNullable().PrimaryKey().Identity()
             .WithColumn("name").AsString().NotNullable()
+            .WithColumn("user_id").AsInt32().NotNullable() // FK
             .WithColumn("practice_count").AsInt32().NotNullable()
             .WithColumn("reached_goal").AsBoolean().NotNullable()
             .WithColumn("exercise_id").AsInt32().NotNullable(); // FK
@@ -49,6 +52,7 @@ public class CreateTables : AutoReversingMigration
         Create.Table("practice_session").InSchema("pract")
             .WithColumn("id").AsInt32().NotNullable().PrimaryKey().Identity()
             .WithColumn("routine_id").AsInt32().NotNullable() // FK
+            .WithColumn("user_id").AsInt32().NotNullable() // FK
             .WithColumn("statisfaction_level").AsString().NotNullable()
             .WithColumn("practiced_at").AsDateTime().Nullable()
             .WithColumn("notes").AsString().Nullable();
@@ -56,6 +60,7 @@ public class CreateTables : AutoReversingMigration
         Create.Table("practice_instance").InSchema("pract")
             .WithColumn("id").AsInt32().NotNullable().PrimaryKey().Identity()
             .WithColumn("exercise_instance_id").AsInt32().NotNullable() // FK
+            .WithColumn("user_id").AsInt32().NotNullable() // FK
             .WithColumn("max_bpm").AsInt32().Nullable()
             .WithColumn("comfortable_bpm").AsInt32().Nullable()
             .WithColumn("statisfaction_level").AsString().NotNullable()
@@ -75,12 +80,28 @@ public class CreateTables : AutoReversingMigration
             .ToTable("exercise").PrimaryColumn("id");
 
         Create.ForeignKey()
+            .FromTable("exercise").ForeignColumn("user_id")
+            .ToTable("user").PrimaryColumn("id");
+
+        Create.ForeignKey()
+            .FromTable("exercise_instance").ForeignColumn("user_id")
+            .ToTable("user").PrimaryColumn("id");
+
+        Create.ForeignKey()
             .FromTable("practice_session").ForeignColumn("routine_id")
             .ToTable("routine").PrimaryColumn("id");
-            
+
         Create.ForeignKey()
             .FromTable("practice_instance").ForeignColumn("exercise_instance_id")
             .ToTable("exercise_instance").PrimaryColumn("id");
+        
+        Create.ForeignKey()
+            .FromTable("practice_session").ForeignColumn("user_id")
+            .ToTable("user").PrimaryColumn("id");
+            
+        Create.ForeignKey()
+            .FromTable("practice_instance").ForeignColumn("user_id")
+            .ToTable("user").PrimaryColumn("id");
     }
 
     // public override void Down()

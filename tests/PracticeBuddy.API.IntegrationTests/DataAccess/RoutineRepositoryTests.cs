@@ -1,4 +1,3 @@
-using Org.BouncyCastle.Bcpg;
 using PracticeBuddy.Core.DataAccess;
 using PracticeBuddy.Core.DataAccess.Repositories;
 using PracticeBuddy.Core.DataModels;
@@ -39,21 +38,26 @@ public class RoutineRepositoryTests : IClassFixture<PracticeBuddyDbFixture>, IAs
         var storedRoutine = await _repository.GetRoutine(routineId);
         Assert.NotNull(storedRoutine);
         Assert.Equal(exampleRoutine.Name, exampleRoutine.Name);
-        // TODO: get the left join working
-        // Assert.NotEmpty(storedRoutine.Exercises);
-        // Assert.Equal(exampleRoutine.Exercises, storedRoutine.Exercises);
+        Assert.NotEmpty(storedRoutine.Exercises);
+        Assert.Equal(exampleRoutine.Exercises.Count, storedRoutine.Exercises.Count);
+        Assert.Equal(exampleRoutine.Exercises[0].Name, storedRoutine.Exercises[0].Name);
+        Assert.Equal(exampleRoutine.UserId, storedRoutine.Exercises[0].UserId);
+        Assert.Equal(exampleRoutine.Id, storedRoutine.Exercises[0].RoutineId);
+        Assert.Equal(0, storedRoutine.Exercises[0].PracticeCount);
+        Assert.Null(exampleRoutine.Exercises[0].LastPracticedAt);
     }
 
     private static Routine CreateTestRoutine()
     {
         return new()
         {
-            Name = "A Routine",
+            Id = 1,
             UserId = 1,
+            Name = "A Routine",
             Exercises = new List<Exercise>()
             {
-                new Exercise(){ Name = "2 Octave Scales" },
-                new Exercise(){ Name = "Hanon Exercises" }
+                new Exercise(){ Id = 1, Name = "2 Octave Scales" },
+                new Exercise(){ Id = 2, Name = "Hanon Exercises" }
             }
         };
     }

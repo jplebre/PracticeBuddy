@@ -10,6 +10,7 @@ public class DapperDb : IDapperDb
     public DapperDb(MySqlConnection connection)
     {
         _connection = connection;
+        DefaultTypeMap.MatchNamesWithUnderscores = true;
     }
 
     public async Task<bool> PingAsync()

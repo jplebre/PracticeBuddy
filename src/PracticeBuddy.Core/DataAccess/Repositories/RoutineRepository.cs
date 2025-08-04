@@ -29,16 +29,43 @@ public class RoutineRepository : IRoutineRepository
         routine.LastPracticedAt = null;
         routine.PracticeCount = 0;
 
-        return await _database.QuerySingleAsync<int>(query, routine);
+        if (!routine.Exercises.Any())
+            return await _database.QuerySingleAsync<int>(query, routine);
+
+        // not a complete implementation, only here for TDD purposes
+        // refactor into correct repository
+        var routineId = await _database.QuerySingleAsync<int>(query, routine);
+        routine.Exercises = routine.Exercises.Select(e =>
+            {
+                e.UserId = routine.UserId;
+                e.RoutineId = routineId;
+                e.CreatedAt = _dateTimeProvider.Now();
+                e.LastUpdatedAt = _dateTimeProvider.Now();
+                e.LastPracticedAt = null;
+                e.PracticeCount = 0;
+                return e;
+            }).ToList();
+
+        string processQuery = @"
+            INSERT INTO `exercise`
+            (name,goal_bpm,practice_count,routine_id,user_id,last_practiced_at,created_at,last_updated_at)
+            VALUES (@Name, @GoalBpm, @PracticeCount, @RoutineId, @UserId, @LastPracticedAt, @CreatedAt, @LastUpdatedAt)";
+        var affectedRows = await _database.ExecuteAsync(processQuery, routine.Exercises);
+        return routineId;
     }
 
     public async Task<Routine> GetRoutine(int routineId)
     {
-        var query = "SELECT * FROM `routine` WHERE id = @Id";
+        var query = @"SELECT * FROM `routine` WHERE id = @Id";
         var parameters = new DynamicParameters();
         parameters.Add("@Id", routineId);
-        
-        return await _database.QuerySingleAsync<Routine>(query, parameters);
+
+        var routine = await _database.QuerySingleAsync<Routine>(query, parameters);
+
+        var exerciseQuery = @"SELECT * FROM `exercise` WHERE routine_id = @Id";
+        routine.Exercises = (await _database.QueryAsync<Exercise>(exerciseQuery, parameters)).ToList();
+
+        return routine;
     }
 
     public async Task<IList<Routine>> GetRoutines()
