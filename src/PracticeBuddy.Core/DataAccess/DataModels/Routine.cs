@@ -1,4 +1,4 @@
-namespace PracticeBuddy.Core.DataModels;
+namespace PracticeBuddy.Core.DataAccess.DataModels;
 
 public class Routine
 {

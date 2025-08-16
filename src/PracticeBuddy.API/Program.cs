@@ -17,6 +17,7 @@ builder.Services
     .AddMySqlDataSource(builder.Configuration.GetSection("PracticeBuddyApi:MySql").Get<MySqlOptions>()!.ConnectionString);
 
 builder.Services.AddScoped<IRoutineRepository, RoutineRepository>();
+builder.Services.AddScoped<IExerciseInstanceRepository, ExerciseInstanceRepository>();
 
 builder.Services.AddTransient<IDateTimeProvider, dateTimeProvider>();
 

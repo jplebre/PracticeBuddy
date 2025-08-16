@@ -1,4 +1,6 @@
-namespace PracticeBuddy.Core.DataModels;
+namespace PracticeBuddy.Core.DataAccess.DataModels;
+
+// TODO: NOT a data model (this is a contract for the suggestion API)
 
 public class PracticeSuggestionResponse
 {

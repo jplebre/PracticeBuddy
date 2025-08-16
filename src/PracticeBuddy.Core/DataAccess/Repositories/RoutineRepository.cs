@@ -1,6 +1,6 @@
 using System.Data;
 using Dapper;
-using PracticeBuddy.Core.DataModels;
+using PracticeBuddy.Core.DataAccess.DataModels;
 
 namespace PracticeBuddy.Core.DataAccess.Repositories;
 
@@ -48,8 +48,8 @@ public class RoutineRepository : IRoutineRepository
 
         string processQuery = @"
             INSERT INTO `exercise`
-            (name,goal_bpm,practice_count,routine_id,user_id,last_practiced_at,created_at,last_updated_at)
-            VALUES (@Name, @GoalBpm, @PracticeCount, @RoutineId, @UserId, @LastPracticedAt, @CreatedAt, @LastUpdatedAt)";
+            (name,goal_bpm,practice_count,exercise_duration,routine_id,user_id,last_practiced_at,created_at,last_updated_at)
+            VALUES (@Name, @GoalBpm, @PracticeCount, @ExerciseDuration, @RoutineId, @UserId, @LastPracticedAt, @CreatedAt, @LastUpdatedAt)";
         var affectedRows = await _database.ExecuteAsync(processQuery, routine.Exercises);
         return routineId;
     }

@@ -1,4 +1,4 @@
-using PracticeBuddy.Core.DataModels;
+using PracticeBuddy.Core.DataAccess.DataModels;
 
 namespace PracticeBuddy.Core.DataAccess.Repositories;
 

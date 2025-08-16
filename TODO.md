@@ -1,5 +1,9 @@
 # TODO
 
+- Create contract models. Exercises have list of keys/modifiers (with order, so maybe ordered list or dictionary?)
+- Service must convert these into an Exercise with a List<ExerciseInstance>(), one per key AND modifier.
+- These must be inserted in the ExerciseRepository layer.
+
 - Make docker images when building project (by using csproj, see fluent migration project)
   - Docs here https://learn.microsoft.com/en-us/visualstudio/containers/container-msbuild-properties?view=vs-2022
   - and here https://learn.microsoft.com/en-us/visualstudio/containers/docker-compose-properties?view=vs-2022

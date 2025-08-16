@@ -1,8 +1,8 @@
 using PracticeBuddy.Core.DataAccess;
 using PracticeBuddy.Core.DataAccess.Repositories;
-using PracticeBuddy.Core.DataModels;
+using PracticeBuddy.Core.DataAccess.DataModels;
 
-namespace PracticeBuddy.API.IntegrationTests.Controllers;
+namespace PracticeBuddy.API.IntegrationTests.DataAccess;
 
 public class RoutineRepositoryTests : IClassFixture<PracticeBuddyDbFixture>, IAsyncDisposable
 {
@@ -27,7 +27,8 @@ public class RoutineRepositoryTests : IClassFixture<PracticeBuddyDbFixture>, IAs
     {
         // Arrange
         var exampleRoutine = CreateTestRoutine();
-        var userId = await _database.QueryAsync<int>(@"INSERT INTO `user` (username, firstname, lastname, email) VALUES (@UserName, @FirstName, @LastName, @Email);
+        var userId = await _database.QueryAsync<int>(
+            @"INSERT INTO `user` (username, firstname, lastname, email) VALUES (@UserName, @FirstName, @LastName, @Email);
             SELECT LAST_INSERT_ID()",
             new { UserName = "JD", FirstName = "John", LastName = "Doe", Email = "john.doe@gmail.com" });
 
@@ -58,7 +59,10 @@ public class RoutineRepositoryTests : IClassFixture<PracticeBuddyDbFixture>, IAs
             {
                 new Exercise(){ Id = 1, Name = "2 Octave Scales" },
                 new Exercise(){ Id = 2, Name = "Hanon Exercises" }
-            }
+            },
+            LastPracticedAt = new DateTime(1999,1,1),
+            CreatedAt = new DateTime(1999,1,1),
+            LastUpdatedAt = new DateTime(1999,1,1)
         };
     }
 

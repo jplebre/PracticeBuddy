@@ -1,5 +1,6 @@
 using Dapper;
 using MySqlConnector;
+using PracticeBuddy.Core.DataAccess.TypeMappers;
 
 namespace PracticeBuddy.Core.DataAccess;
 
@@ -11,6 +12,8 @@ public class DapperDb : IDapperDb
     {
         _connection = connection;
         DefaultTypeMap.MatchNamesWithUnderscores = true;
+
+        SqlMapper.AddTypeHandler(typeof(TimeSpan), TimeSpanHandler.Default);
     }
 
     public async Task<bool> PingAsync()

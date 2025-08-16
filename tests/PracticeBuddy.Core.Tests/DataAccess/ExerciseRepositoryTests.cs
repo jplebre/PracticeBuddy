@@ -1,8 +1,7 @@
-using Dapper;
 using FakeItEasy;
 using PracticeBuddy.Core.DataAccess;
 using PracticeBuddy.Core.DataAccess.Repositories;
-using PracticeBuddy.Core.DataModels;
+using PracticeBuddy.Core.DataAccess.DataModels;
 
 namespace PracticeBuddy.Core.Tests.DataAccess.Repositories;
 
@@ -21,27 +20,28 @@ public class ExerciseRepositoryTests
     }
 
     // [Fact]
-    // public async Task InsertRoutine_WithoutExercises_ReturnsCorrectResult()
+    // public async Task InsertExercises_ReturnsCorrectResult()
     // {
     //     // Arrange
-    //     Routine routine = CreateTestRoutine(withExercises:false);
+    //     Exercise exercise = CreateTestExercise();
 
     //     A.CallTo(() => _dapperDb.QuerySingleAsync<int>(
-    //                             A<string>.That.Contains("INSERT INTO `routine`"), routine))
+    //                             A<string>.That.Contains("INSERT INTO `exercise`"), exercise))
     //                             .Returns(0000000001);
     //     A.CallTo(() => _dateTimeProvider.Now()).Returns(new DateTime(2001, 01, 01, 00, 01, 01));
 
-    //     // Act
-    //     var result = await _sut.InsertRoutine(routine);
+    //     // // Act
+    //     var result = await _sut.InsertExercise(exercise);
 
     //     // Assert
     //     Assert.Equal(0000000001, result);
     //     A.CallTo(() => _dapperDb.QuerySingleAsync<int>(
-    //         A<string>.That.Contains("INSERT INTO `routine`"), A<Routine>._)).MustHaveHappened();
+    //         A<string>.That.Contains("INSERT INTO `exercise`"), A<Exercise>._)).MustHaveHappened();
     //     A.CallTo(() => _dapperDb.ExecuteAsync(
-    //         A<string>.That.Contains("INSERT INTO `exercise`"), A<List<Exercise>>._)).MustNotHaveHappened();
+    //         A<string>.That.Contains("INSERT INTO `exercise_instance`"), A<List<Exercise>>._)).MustHaveHappened();
     // }
 
+    
     // [Fact]
     // public async Task InsertRoutine_WithExercises_ReturnsCorrectResult()
     // {
@@ -64,24 +64,25 @@ public class ExerciseRepositoryTests
     // }
 
     // [Fact]
-    // public async Task InsertRoutine_PopulatesTimestampsCorrectly()
+    // public async Task InsertExercise_PopulatesTimestampsCorrectly()
     // {
     //     // Arrange
-    //     var capturedRoutine = A.Captured<Routine>();
-    //     Routine routine = CreateTestRoutine(withExercises: false);
+    //     var capturedExercises = A.Captured<Exercise>();
+    //     Exercise exercise = CreateTestExercise();
 
-    //     A.CallTo(() => _dapperDb.QuerySingleAsync<int>(A<string>.That.Contains("INSERT INTO `routine`"), capturedRoutine._)).Returns(0000000001);
-    //     A.CallTo(() => _dapperDb.ExecuteAsync(A<string>.That.Contains("INSERT INTO `exercise`"), A<List<Exercise>>._));
+    //     A.CallTo(() => _dapperDb.QuerySingleAsync<int>(
+    //                             A<string>.That.Contains("INSERT INTO `exercise`"), capturedExercises._))
+    //                             .Returns(0000000001);
     //     A.CallTo(() => _dateTimeProvider.Now()).Returns(new DateTime(2001, 01, 01, 00, 01, 01));
 
     //     // Act
-    //     var result = await _sut.InsertRoutine(routine);
+    //     var result = await _sut.InsertExercise(exercise);
 
     //     // Assert
-    //     Assert.Null(capturedRoutine.Values.FirstOrDefault()?.LastPracticedAt);
-    //     Assert.Equal(0, capturedRoutine.Values.FirstOrDefault()?.PracticeCount);
-    //     Assert.Equal(_dateTimeProvider.Now(), capturedRoutine.Values.FirstOrDefault()?.LastUpdatedAt);
-    //     Assert.Equal(_dateTimeProvider.Now(), capturedRoutine.Values.FirstOrDefault()?.CreatedAt);
+    //     Assert.Null(capturedExercises.Values.FirstOrDefault()?.LastPracticedAt);
+    //     Assert.Equal(0, capturedExercises.Values.FirstOrDefault()?.PracticeCount);
+    //     Assert.Equal(_dateTimeProvider.Now(), capturedExercises.Values.FirstOrDefault()?.LastUpdatedAt);
+    //     Assert.Equal(_dateTimeProvider.Now(), capturedExercises.Values.FirstOrDefault()?.CreatedAt);
     // }
 
     // [Fact]
@@ -153,22 +154,23 @@ public class ExerciseRepositoryTests
     //     Assert.Single(result);
     // }
 
-    // private static Routine CreateTestRoutine(bool withExercises = false)
-    // {
-    //     var exercises = new List<Exercise>();
-    //     if (withExercises)
-    //     {
-    //         exercises.Add(new Exercise() { Name = "2 Octave Scales" });
-    //         exercises.Add(new Exercise() { Name = "20 Hanon Exercises" });
-    //     }
-    //     return new()
-    //     {
-    //         Id = 1,
-    //         Name = "A Routine",
-    //         CreatedAt = new DateTime(2001, 01, 01, 12, 01, 59),
-    //         LastPracticedAt = new DateTime(2010, 01, 01, 09, 00, 00),
-    //         LastUpdatedAt = new DateTime(2005, 06, 01, 21, 00, 00),
-    //         Exercises = exercises
-    //     };
-    // }
+    private static Exercise CreateTestExercise()
+    {
+        Exercise exercise = new Exercise()
+        {
+            Id = 1,
+            RoutineId = 1,
+            UserId = 1,
+            Name = "2 Octave Scales",
+            GoalBpm = 120
+
+            // TODO: Exercise Models must not have list of keys or modifiers
+            // Instead, they need a list of exercise instance with all keys and modifiers.
+            // The contracts can have a list of keys/modifiers.
+            
+            // datetime utils
+        };
+        return exercise;
+    }
+
 }

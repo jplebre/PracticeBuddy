@@ -1,4 +1,4 @@
-using PracticeBuddy.Core.DataModels;
+using PracticeBuddy.Core.DataAccess.DataModels;
 
 namespace PracticeBuddy.Core.DataAccess.Repositories;
 
@@ -15,22 +15,19 @@ public class ExerciseRepository : IExerciseRepository
 
     public async Task<int> InsertExercise(Exercise exercise)
     {
-        throw new NotImplementedException();
+        var query = @"
+            INSERT INTO `exercise` 
+            (name,user_id,routine_id,goal_bpm,practice_count,total_time_practiced,last_practiced_at,created_at,last_updated_at)
+            VALUES 
+            (@Name,@UserId,@RoutineId,@GoalBpm,@PracticeCount,@TotalTimePracticed,@LastPracticedAt,@CreatedAt,@LastUpdatedAt);
+            SELECT LAST_INSERT_ID()";
 
-        // var query = @"
-        //     INSERT INTO `routine` 
-        //     (name,user_id,practice_count,last_practiced_at,created_at,last_updated_at)
-        //     VALUES 
-        //     (@Name,@UserId,@PracticeCount,@LastPracticedAt,@CreatedAt,@LastUpdatedAt);
-        //     SELECT LAST_INSERT_ID()";
+        exercise.CreatedAt = _dateTimeProvider.Now();
+        exercise.LastUpdatedAt = _dateTimeProvider.Now();
+        exercise.LastPracticedAt = null;
+        exercise.PracticeCount = 0;
 
-        // routine.CreatedAt = _dateTimeProvider.Now();
-        // routine.LastUpdatedAt = _dateTimeProvider.Now();
-        // routine.LastPracticedAt = null;
-        // routine.PracticeCount = 0;
-
-        // if (!routine.Exercises.Any())
-        //     return await _database.QuerySingleAsync<int>(query, routine);
+        return await _database.QuerySingleAsync<int>(query, exercise);
 
         // // not a complete implementation, only here for TDD purposes
         // // refactor into correct repository

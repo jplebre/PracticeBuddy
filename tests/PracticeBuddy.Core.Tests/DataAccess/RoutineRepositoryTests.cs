@@ -2,7 +2,7 @@ using Dapper;
 using FakeItEasy;
 using PracticeBuddy.Core.DataAccess;
 using PracticeBuddy.Core.DataAccess.Repositories;
-using PracticeBuddy.Core.DataModels;
+using PracticeBuddy.Core.DataAccess.DataModels;
 
 namespace PracticeBuddy.Core.Tests.DataAccess.Repositories;
 

@@ -1,6 +1,6 @@
 using PracticeBuddy.Core.Constants;
 
-namespace PracticeBuddy.Core.DataModels;
+namespace PracticeBuddy.Core.DataAccess.DataModels;
 
 public class Practice
 {
